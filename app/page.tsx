@@ -1,8 +1,23 @@
-import UserName from "@/components/functional/user-name";
-import { Button } from "@/components/ui/button";
+"use client";
 
+import { eden } from "@/lib/eden";
+import { useMutation } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import UserName from "@/components/functional/user-name";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
+  const { mutate: createRoom } = useMutation({
+    mutationFn: async () => {
+      const res = await eden.room.new.post();
+      if (res.status === 200) {
+        router.push(`/room/${res.data?.roomID}`);
+      }
+    }
+  });
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-zinc-900">
       <div className="w-full max-w-xl space-y-8 shadow-xl">
@@ -10,7 +25,7 @@ export default function Home() {
         <div className="bg-zinc-800/50 border border-zinc-600/50 p-6 backdrop-blur-md rounded-md space-y-4">
           <p className="font-sans text-white">You are :</p>
           <UserName />
-          <Button className="w-full bg-white py-5 text-black text-md uppercase font-sans transition-colors cursor-pointer hover:bg-purple-700 hover:text-white">Create room</Button>
+          <Button onClick={() => createRoom()} className="w-full bg-white py-5 text-black text-md uppercase font-sans transition-colors cursor-pointer hover:bg-purple-700 hover:text-white">Create room</Button>
         </div>
       </div>
     </main>
