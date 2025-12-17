@@ -1,5 +1,5 @@
-function formatTime(time : number | null) {
-  if(!time) return "--:--";
+function formatTime(time: number | null) {
+  if (!time) return "--:--";
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
@@ -7,4 +7,4 @@ function formatTime(time : number | null) {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
-export { formatTime }
+export { formatTime };

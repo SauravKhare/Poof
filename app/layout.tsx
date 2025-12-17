@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "@/providers/react-query-provider";
+import { RealtimeProviders } from "@/providers/realtime-provider";
+import { UserProvider } from "@/providers/user-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,9 +32,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${ibmMono.variable} antialiased bg-gray-900`}
       >
-        <ReactQueryProvider>
-          {children}
-        </ReactQueryProvider>
+        <UserProvider>
+          <RealtimeProviders>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </RealtimeProviders>
+        </UserProvider>
       </body>
     </html>
   );
