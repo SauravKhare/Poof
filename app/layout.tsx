@@ -20,6 +20,10 @@ const ibmMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "Poof.",
   description: "Chat. Vanish. Poof!",
+  icons: {
+    icon: "https://fav.farm/💨",
+    apple: "https://fav.farm/💨",
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${ibmMono.variable} antialiased bg-gray-900`}
+        className={`${inter.variable} ${ibmMono.variable} antialiased bg-zinc-950`}
       >
         <UserProvider>
           <RealtimeProviders>

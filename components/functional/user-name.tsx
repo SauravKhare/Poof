@@ -14,7 +14,6 @@ import { useState, useEffect } from "react";
 
 export default function UserName() {
   const { username, setUsername } = useUser();
-  // const [userName, setUserName] = useState("XXXXX-XXXXX-XXXXX");
   const [isOpen, setIsOpen] = useState(false);
   const { isCopied, copy } = useCopyToClipboard();
 
@@ -48,7 +47,10 @@ export default function UserName() {
             className="bg-zinc-950 border border-zinc-600/50 p-3 rounded-md w-full"
             onClick={handleCopy}
           >
-            <span className="font-mono text-xl font-medium text-poof-glow-primary">
+            <span
+              className={`font-mono text-xl font-medium text-poof-glow-primary transition-all duration-700 ${username ? 'blur-0 opacity-100' : 'blur-sm opacity-60'
+                }`}
+            >
               {username || "XXXXX-XXXXX-XXXXX"}
             </span>
           </button>

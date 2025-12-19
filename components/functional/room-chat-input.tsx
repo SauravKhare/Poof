@@ -25,28 +25,24 @@ function RoomChatInput({ roomId }: { roomId: string }) {
 
     if (!text.trim()) return;
 
-    // Trigger the mutation
     sendMessage(text);
   }
 
   return (
     <div className="p-4 border-t border-zinc-800 bg-zinc-900/30">
-      <div className="flex gap-4">
+      <div className="flex gap-4 md:w-3/5 mx-auto">
         <div className="flex-1 relative group">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500 animate-pulse">
-            {">"}
-          </span>
           <form ref={formRef} action={handleMessage} className="flex gap-3">
             <input
               type="text"
               name="text"
-              className="w-full bg-black border border-zinc-800 focus:border-zinc-700 focus:outline-none transition-colors text-zinc-100 placeholder:text-sinc-700 py-3 pl-8 pr-4 text-sm"
+              className="w-full bg-black border border-zinc-800 focus:border-zinc-700 focus:outline-none transition-colors text-zinc-100 placeholder:text-sinc-700 py-3 px-4 text-sm rounded-md"
               placeholder="Type your message...."
             />
             <button
               type="submit"
               disabled={isPending}
-              className="bg-zinc-800 text-zinc-400 px-6 text-sm font-bold hover:text-zinc-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="bg-zinc-800 text-zinc-400 px-6 text-sm font-bold hover:text-zinc-200 hover:bg-poof-glow-secondary transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer rounded-md"
             >
               SEND
             </button>

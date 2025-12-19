@@ -34,6 +34,8 @@ function RoomHeader({ roomId }: { roomId: string }) {
     mutationKey: ["poof", roomId],
     mutationFn: async () => {
       await eden.room.poof.delete(null, { query: { roomID: roomId } });
+      const localUserExist = window.localStorage.getItem("POOF_USER");
+      if (localUserExist) window.localStorage.removeItem("POOF_USER");
     },
   });
 
@@ -59,16 +61,19 @@ function RoomHeader({ roomId }: { roomId: string }) {
     return () => clearInterval(interval);
   }, [timeRemaining, router]);
 
+  const trimmedRoomId =
+    roomId.length > 5 && `${Array.from(roomId).slice(0, 7).join("")}...`;
+
   return (
     <header className="border-b border-zinc-800 p-4 flex items-center justify-between bg-zinc-900/30">
-      <div className="flex items-center gap-4">
-        <div className="flex flex-col">
+      <div className="flex items-center gap-4 md:w-3/5 md:mx-auto justify-between w-full">
+        <div className="flex flex-col w-3/4">
           <span className="text-xs text-zinc-500 uppercase font-mono">
             Room ID
           </span>
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-green-500  font-mono">
-              {roomId ?? ""}
+          <div className="flex items-center gap-4">
+            <span className="font-bold text-green-500 font-mono">
+              {trimmedRoomId ?? ""}
             </span>
             <button
               type="button"
@@ -77,27 +82,29 @@ function RoomHeader({ roomId }: { roomId: string }) {
             >
               {isCopied ? "Copied" : "Copy"}
             </button>
+            <div className="h-8 w-px bg-zinc-800"></div>
+            <div className="flex flex-col">
+              <span className="text-xs text-zinc-500 uppercase  font-mono">
+                You have
+              </span>
+              <span
+                className={`text-sm font-bold flex items-center gap-2 font-mono ${time}`}
+              >
+                {prettyTime}
+              </span>
+            </div>
           </div>
         </div>
-        <div className="h-8 w-px bg-zinc-800"></div>
-        <div className="flex flex-col">
-          <span className="text-xs text-zinc-500 uppercase  font-mono">
-            Automatic Poofing in
-          </span>
-          <span
-            className={`text-sm font-bold flex items-center gap-2 font-mono ${time}`}
+        <div>
+          <button
+            type="button"
+            onClick={() => poof()}
+            className="text-xs bg-zinc-800 text-zinc-400 hover:bg-red-600 px-3 py-1.5 rounded hover:text-white font-bold transition-all group flex items-center gap-2 disabled:opacity-50 cursor-pointer"
           >
-            {prettyTime}
-          </span>
+            <span className="group-hover:animate-pulse">💨</span> Poof!
+          </button>
         </div>
       </div>
-      <button
-        type="button"
-        onClick={() => poof()}
-        className="text-xs bg-zinc-800 text-zinc-400 hover:bg-red-600 px-3 py-1.5 rounded hover:text-white font-bold transition-all group flex items-center gap-2 disabled:opacity-50"
-      >
-        <span className="group-hover:animate-pulse">💣</span> Poof!
-      </button>
     </header>
   );
 }

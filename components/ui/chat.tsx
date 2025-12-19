@@ -29,12 +29,14 @@ export function Chat({ roomId }: { roomId: string }) {
       }
       if (event === "chat.poof") {
         router.push("/?poofed=true");
+        const localUserExist = window.localStorage.getItem("POOF_USER");
+        if (localUserExist) window.localStorage.removeItem("POOF_USER");
       }
     },
   });
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div className="flex flex-col overflow-y-auto h-screen p-4 space-y-4 md:w-3/5 md:mx-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       {messages?.messages.length === 0 && (
         <div className="flex items-center justify-center h-full">
           <p className="text-zinc-600 text-sm font-mono">
@@ -43,8 +45,11 @@ export function Chat({ roomId }: { roomId: string }) {
         </div>
       )}
       {messages?.messages.map((message) => (
-        <div key={message.id} className="flex flex-col items-start">
-          <div className="max-w-[80%] group">
+        <div
+          key={message.id}
+          className={`flex flex-col ${message.sender === username ? "items-end" : "items-start"}`}
+        >
+          <div className="md:max-w-[80%] group">
             <div className="flex items-baseline gap-3 mb-1">
               <span
                 className={`text-xs font-bold font-mono ${message.sender === username ? "text-green-500" : "text-blue-500"}`}
@@ -55,7 +60,7 @@ export function Chat({ roomId }: { roomId: string }) {
                 {format(message.timestamp, "HH:mm")}
               </span>
             </div>
-            <p className="text-sm text-zinc-300 leading-relaxed break-all font-mono">
+            <p className="text-sm text-zinc-300 leading-relaxed break-all font-sans bg-zinc-800 px-2 py-1 rounded-md max-w-3xs md:max-w-96">
               {message.text}
             </p>
           </div>
